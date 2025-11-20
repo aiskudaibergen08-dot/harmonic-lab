@@ -8,70 +8,192 @@
 <script id="MathJax-script" async
   src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 <style>
-body {font-family: Arial, sans-serif; background:#f5f7fb; margin:0; padding:0;}
-header {background:#3a6cf4; color:white; text-align:center; padding:20px; font-size:26px; font-weight:bold;}
-.container {max-width:950px; margin:30px auto; background:white; padding:25px; border-radius:15px; box-shadow:0 4px 15px rgba(0,0,0,0.1);}
-.tabs {display:flex; border-bottom:2px solid #3a6cf4; cursor:pointer;}
-.tab {padding:12px 20px; border-top-left-radius:10px; border-top-right-radius:10px; margin-right:5px; background:#eef2ff; color:#3a6cf4; font-weight:bold;}
-.tab.active {background:#3a6cf4; color:white;}
-.tab-content {display:none; padding-top:20px;}
-.tab-content.active {display:block;}
-input {width:100%; padding:10px; margin-top:8px; border-radius:8px; border:1px solid #ccc; font-size:15px;}
-button {background:#3a6cf4; border:none; color:white; padding:12px 25px; border-radius:10px; font-size:16px; cursor:pointer; margin-top:12px;}
-button:hover {background:#2d54c9;}
-.result-box {margin-top:15px; padding:15px; background:#eef2ff; border-radius:10px; font-weight:bold; text-align:center;}
-.formula-block {
-    background: #fff; 
-    padding: 15px; 
-    border: 1px solid #ccc; 
-    border-radius: 8px;
-    margin-top: 15px;
+/* -------------------- ЖАҢА ЕРЕКШЕ ДИЗАЙН (Көксіз) -------------------- */
+:root {
+    --primary-color: #6f42c1; /* Күлгін/Индиго */
+    --secondary-color: #fd7e14; /* Сары-қызғылт сары */
+    --light-bg: #f8f7ff; /* Ашық күлгін фон */
+    --box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
 }
+
+body {
+    font-family: 'Georgia', serif; 
+    background: var(--light-bg); 
+    margin:0; 
+    padding:0;
+    color: #495057; 
+}
+
+header {
+    /* Фондық сурет: Тербеліс толқындарына ұқсас абстрактілі сурет */
+    background: url('https://picsum.photos/1200/250?blur=5&grayscale&random=2') no-repeat center center/cover; 
+    color: white; 
+    text-align: center; 
+    padding: 70px 20px; 
+    font-size: 34px; 
+    font-weight: 900;
+    text-shadow: 0 0 10px var(--primary-color), 0 0 20px rgba(0, 0, 0, 0.5); 
+    min-height: 150px;
+    position: relative;
+    overflow: hidden;
+}
+header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(111, 66, 193, 0.4); /* Күлгін қабат (Overlay) */
+    z-index: 1;
+}
+header h1 {
+    position: relative;
+    z-index: 2;
+    margin: 0;
+}
+
+.container {
+    max-width: 1000px; 
+    margin: -40px auto 30px; 
+    background: white; 
+    padding: 30px; 
+    border-radius: 18px; 
+    box-shadow: var(--box-shadow);
+    position: relative;
+    z-index: 10;
+}
+.tabs {
+    display: flex; 
+    border-bottom: 3px solid var(--primary-color);
+    cursor: pointer;
+    margin-bottom: 25px;
+}
+.tab {
+    padding: 15px 25px; 
+    border-top-left-radius: 10px; 
+    border-top-right-radius: 10px; 
+    margin-right: 5px; 
+    background: var(--light-bg); 
+    color: var(--primary-color); 
+    font-weight: bold;
+    transition: all 0.3s ease;
+    border: 1px solid transparent;
+    border-bottom: none;
+}
+.tab:hover {
+    background: #e9e6f0;
+}
+.tab.active {
+    background: var(--primary-color); 
+    color: white;
+    border-color: var(--primary-color);
+    transform: translateY(2px); 
+}
+.tab-content {
+    display:none; 
+    padding-top:20px;
+}
+.tab-content.active {
+    display:block;
+}
+
+/* Форма элементтері */
+input[type="number"] {
+    width: calc(100% - 22px); 
+    padding: 12px; 
+    margin-top: 8px; 
+    border-radius: 8px; 
+    border: 1px solid #e0c8ff;
+    background: #fff;
+    font-size: 16px;
+    box-shadow: inset 0 1px 4px rgba(0,0,0,0.05);
+}
+button {
+    background: var(--secondary-color); 
+    border: none; 
+    color: white; 
+    padding: 14px 30px; 
+    border-radius: 10px; 
+    font-size: 17px; 
+    cursor: pointer; 
+    margin-top: 18px;
+    transition: background 0.3s;
+    box-shadow: 0 4px 10px rgba(253, 126, 20, 0.4);
+}
+button:hover {background:#e66a0a;}
+
+.result-box {
+    margin-top: 25px; 
+    padding: 20px; 
+    background: #fff3cd; 
+    color: #856404;
+    border-radius: 10px; 
+    font-weight: bold; 
+    text-align: center;
+    border: 1px solid #ffeeba;
+    font-size: 18px;
+}
+.formula-block {
+    background: #f0f0f0; 
+    padding: 25px; 
+    border-radius: 12px;
+    border-left: 5px solid var(--secondary-color);
+    margin-top: 20px;
+}
+.math-eq {
+    font-size: 22px;
+    font-weight: bold;
+    margin: 10px 0;
+    display: block;
+    text-align: center;
+}
+
+/* Тест стилі */
 .question-block {
-    background: #eef2ff; 
-    padding: 15px;
-    border-radius: 10px;
-    margin-bottom: 20px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    background: #ffffff; 
+    padding: 20px;
+    border-radius: 12px;
+    margin-bottom: 15px;
+    border-left: 4px solid var(--primary-color);
+    box-shadow: 0 1px 5px rgba(0,0,0,0.05);
 }
 .question-block h4 {
-    margin-top: 0;
-    color: #3a6cf4;
-    font-size: 18px;
-    font-weight: bold;
+    margin-top: 0;
+    color: var(--primary-color);
+    font-size: 19px;
+    font-weight: 700;
 }
-/* ӨЗГЕРТУ: Жауап нұсқаларының контейнерінің стилі */
 .question-options label {
-    display: flex; /* Нұсқаларды бір қатарға қою */
-    align-items: center;
-    margin-top: 8px;
-    padding: 5px 0;
+    display: flex; 
+    align-items: center;
+    margin-top: 10px;
+    padding: 10px;
+    border-radius: 8px;
+    transition: background 0.2s;
+}
+.question-options label:hover {
+    background: #fcfaff;
 }
 .question-options input[type="radio"] {
-    width: auto;
-    margin-right: 15px;
-    transform: scale(1.3); /* Радио батырманы үлкейту */
+    width: auto;
+    margin-right: 15px;
+    transform: scale(1.4); 
+    accent-color: var(--primary-color); 
 }
-
-/* ЖАҢА СТИЛЬ: Формулалар енді блок ретінде көрсетіледі */
 .formula-display {
-    flex-grow: 1; /* Барлық бос орынды алу */
-    padding: 5px 0;
-    font-size: 20px; /* Қаріпті үлкейту */
-    text-align: left; /* Формуланың сол жақта тұруы */
+    flex-grow: 1; 
+    font-size: 16px;
+    text-align: left; 
 }
-.formula-display .MathJax {
-    display: inline !important; /* MathJax-ты бір қатарда ұстау */
-    font-size: 1.1em; /* Формуланы үлкенірек ету */
-}
-
 
 canvas {margin-top:20px;}
-label{margin-top:10px;display:block;}
+label{margin-top:10px;display:block; font-weight: 500;}
+
 </style>
 </head>
 <body>
-<header>Гармоникалық тербеліс виртуалды зертханасы</header>
+<header><h1>Гармоникалық тербеліс виртуалды зертханасы</h1></header>
 <div class="container">
 <div class="tabs">
   <div class="tab active" onclick="showTab(0)">Калькулятор</div>
@@ -81,73 +203,40 @@ label{margin-top:10px;display:block;}
 </div>
 
 <div class="tab-content active">
-  <h2 style="text-align:center;">Калькулятор 🧮</h2>
-  <label>Амплитуда \(A\) (м):</label><input type="number" id="A" value="1" step="0.1">
-  <label>Циклдық жиілік \(\omega\) (рад/с):</label><input type="number" id="omega" value="2" step="0.1">
-  <label>Фаза \(\phi\) (рад):</label><input type="number" id="phi" value="0" step="0.1">
-  <label>Уақыт \(t\) (с):</label><input type="number" id="t" value="0" step="0.1">
+  <h2 style="text-align:center; color:var(--primary-color);">Калькулятор 🧮</h2>
+  <label>Амплитуда \(A\) (\(\text{м}\)):</label><input type="number" id="A" value="1" step="0.1">
+  <label>Циклдық жиілік \(\omega\) (\(\text{рад/с}\)):</label><input type="number" id="omega" value="2" step="0.1">
+  <label>Фаза \(\phi\) (\(\text{рад}\)):</label><input type="number" id="phi" value="0" step="0.1">
+  <label>Уақыт \(t\) (\(\text{с}\)):</label><input type="number" id="t" value="0" step="0.1">
   <button onclick="calculate()">Есептеу</button>
-  <div class="result-box" id="result">Координата x: 0 м</div>
+  <div class="result-box" id="result">Нәтижелер осы жерде көрсетіледі.</div>
 </div>
 
 <div class="tab-content">
-  <h2 style="text-align:center;">Теория 📚</h2>
+  <h2 style="text-align:center; color:var(--primary-color);">Теория 📚</h2>
   <div class="formula-block">
     <p style="text-align:center;">**Гармоникалық тербеліс теңдеулері**</p>
-    $$x(t) = A \cos(\omega t + \phi)$$
-    $$v(t) = \frac{dx}{dt} = -A\omega \sin(\omega t + \phi)$$
-    $$a(t) = \frac{d^2x}{dt^2} = -A\omega^2 \cos(\omega t + \phi)$$
-    $$T = \frac{2\pi}{\omega}$$
+    <span class="math-eq">$$x(t) = A \cos(\omega t + \phi)$$</span>
+    <span class="math-eq">$$v(t) = -A\omega \sin(\omega t + \phi)$$</span>
+    <span class="math-eq">$$a(t) = -A\omega^2 \cos(\omega t + \phi)$$</span>
+    <span class="math-eq">$$T = \frac{2\pi}{\omega}$$</span>
   </div>
 </div>
 
 <div class="tab-content">
-  <h2 style="text-align:center;">График 🔬</h2>
-  <label>Уақыт диапазоны (с):</label><input type="number" id="tMax" value="10" step="0.1">
+  <h2 style="text-align:center; color:var(--primary-color);">График 🔬</h2>
+  <label>Амплитуда \(A\) (\(\text{м}\)):</label><input type="number" id="graphA" value="1" step="0.1">
+  <label>Циклдық жиілік \(\omega\) (\(\text{рад/с}\)):</label><input type="number" id="graphOmega" value="2" step="0.1">
+  <label>Фаза \(\phi\) (\(\text{рад}\)):</label><input type="number" id="graphPhi" value="0" step="0.1">
+  <label>Уақыт диапазоны (\(\text{с}\)):</label><input type="number" id="tMax" value="10" step="0.1">
   <button onclick="drawGraph()">График салу</button>
   <canvas id="graph" height="200"></canvas>
 </div>
 
 <div class="tab-content">
-  <h2 style="text-align:center;">Тест 🧠</h2>
+  <h2 style="text-align:center; color:var(--primary-color);">Тест 🧠</h2>
   <div id="quizContainer">
-    <div class="question-block">
-        <h4>Сұрақ 1: $A = 0.5 \text{ м}$, $\omega = 4 \text{ рад/с}$, $\phi = 0$ болғанда, $t = \pi/8 \text{ с}$ уақыттағы жылдамдықты ($v$) есептеңіз:</h4>
-        <div class="question-options">
-            <label><input type="radio" name="q0" value="0"><span class="formula-display">$v = -1 \text{ м/с}$</span></label>
-            <label><input type="radio" name="q0" value="1"><span class="formula-display">$v = -\sqrt{2} \text{ м/с}$</span></label>
-            <label><input type="radio" name="q0" value="2"><span class="formula-display">$v = -0.5 \text{ м/с}$</span></label>
-            <label><input type="radio" name="q0" value="3"><span class="formula-display">$v = 1 \text{ м/с}$</span></label>
-        </div>
-    </div>
-    <div class="question-block">
-        <h4>Сұрақ 2: Гармоникалық тербеліс периодының ($T$) формуласын таңдаңыз:</h4>
-        <div class="question-options">
-            <label><input type="radio" name="q1" value="0"><span class="formula-display">$T = A\omega$</span></label>
-            <label><input type="radio" name="q1" value="1"><span class="formula-display">$T = \frac{2\pi}{\omega}$</span></label>
-            <label><input type="radio" name="q1" value="2"><span class="formula-display">$T = \frac{\omega}{2\pi}$</span></label>
-            <label><input type="radio" name="q1" value="3"><span class="formula-display">$T = \frac{1}{f}$</span></label>
-        </div>
-    </div>
-    <div class="question-block">
-        <h4>Сұрақ 3: Орын ауыстыру ($x(t)$) формуласын таңдаңыз:</h4>
-        <div class="question-options">
-            <label><input type="radio" name="q2" value="0"><span class="formula-display">$x(t) = A \cos(\omega t + \phi)$</span></label>
-            <label><input type="radio" name="q2" value="1"><span class="formula-display">$x(t) = A \sin(\omega t)$</span></label>
-            <label><input type="radio" name="q2" value="2"><span class="formula-display">$x(t) = \omega t + \phi$</span></label>
-            <label><input type="radio" name="q2" value="3"><span class="formula-display">$x(t) = A^2 + \omega^2$</span></label>
-        </div>
-    </div>
-    <div class="question-block">
-        <h4>Сұрақ 4: Жылдамдық ($v(t)$) формуласы қандай?</h4>
-        <div class="question-options">
-            <label><input type="radio" name="q3" value="0"><span class="formula-display">$v(t) = -A \omega \sin(\omega t + \phi)$</span></label>
-            <label><input type="radio" name="q3" value="1"><span class="formula-display">$v(t) = A \omega \cos(\omega t + \phi)$</span></label>
-            <label><input type="radio" name="q3" value="2"><span class="formula-display">$v(t) = \frac{d^2x}{dt^2}$</span></label>
-            <label><input type="radio" name="q3" value="3"><span class="formula-display">$v(t) = -\omega x$</span></label>
-        </div>
-    </div>
-      </div>
+      </div>
   <button onclick="submitQuiz()">Тесті жіберу</button>
   <div id="quizResult" class="result-box" style="display:none"></div>
 </div>
@@ -155,61 +244,171 @@ label{margin-top:10px;display:block;}
 </div>
 
 <script>
-// Вкладка ауыстыру және MathJax жаңарту
+let chart; // Chart.js айнымалысы
+const PI = Math.PI;
+
+// Вкладка ауыстыру функциясы (Толықтай дұрысталды)
 function showTab(n){
-    document.querySelectorAll('.tab').forEach((tab,i)=>tab.classList.toggle('active', i===n));
-    document.querySelectorAll('.tab-content').forEach((content,i)=>content.classList.toggle('active', i===n));
-    if (n === 1 || n === 3) {
+    const tabs = document.querySelectorAll('.tab');
+    const contents = document.querySelectorAll('.tab-content');
+    
+    tabs.forEach((tab, i) => {
+        tab.classList.remove('active');
+        contents[i].classList.remove('active');
+    });
+    
+    tabs[n].classList.add('active');
+    contents[n].classList.add('active');
+    
+    // Теория бөлімі ауысқанда MathJax-ты қайта іске қосу
+    if (n === 1 || n === 0) {
         MathJax.typeset();
+    }
+    // График бөлімі ауысқанда графикті қайта салу
+    if (n === 2) {
+        drawGraph();
     }
 }
 
-// Калькулятор
+// Калькулятор функциясы (Нәтижелерді толық көрсету үшін дұрысталды)
 function calculate(){
-    let A=parseFloat(document.getElementById('A').value);
-    let omega=parseFloat(document.getElementById('omega').value);
-    let phi=parseFloat(document.getElementById('phi').value);
-    let t=parseFloat(document.getElementById('t').value);
-    let x = A * Math.cos(omega*t + phi);
-    let v = -A * omega * Math.sin(omega*t + phi);
-    let a = -A * omega**2 * Math.cos(omega*t + phi);
-    
+    let A = parseFloat(document.getElementById('A').value);
+    let omega = parseFloat(document.getElementById('omega').value);
+    let phi = parseFloat(document.getElementById('phi').value);
+    let t = parseFloat(document.getElementById('t').value);
+    
+    // NaN (Not a Number) тексеру
+    if (isNaN(A) || isNaN(omega) || isNaN(phi) || isNaN(t)) {
+        document.getElementById('result').innerHTML = `**Қате:** Барлық өрістерді сандармен толтырыңыз.`;
+        return;
+    }
+    
+    // Есептеулер
+    let x = A * Math.cos(omega * t + phi);
+    let v = -A * omega * Math.sin(omega * t + phi);
+    let a = -A * omega**2 * Math.cos(omega * t + phi);
+    
+    // Нәтижені толық көрсету (v және a қосылды)
     document.getElementById('result').innerHTML = 
-      `$$\\text{x:} ${x.toFixed(4)} \\text{ м}$$
-      $$\\text{v:} ${v.toFixed(4)} \\text{ м/с}$$
-      $$\\text{a:} ${a.toFixed(4)} \\text{ м/с}^2$$`;
-    
+      `Координата x: ${x.toFixed(4)} м<br>
+      Жылдамдық v: ${v.toFixed(4)} м/с<br>
+      Үдеу a: ${a.toFixed(4)} м/с²`;
+    
     MathJax.typeset();
 }
 
+// График функциясы
+function drawGraph(){
+    let A=parseFloat(document.getElementById('graphA').value);
+    let omega=parseFloat(document.getElementById('graphOmega').value);
+    let phi=parseFloat(document.getElementById('graphPhi').value);
+    let tMax=parseFloat(document.getElementById('tMax').value);
 
-// Қалған тест деректері (барлық формулалар MathJax-қа көшірілді және formula-display арқылы өңделеді)
-const quizData=[
-// (i=4-тен басталады)
-{q:"Үдеудің ($a(t)$) максимал мәні қай формуламен анықталады?",options:["$a_{\\max} = A\\omega$","$a_{\\max} = A\\omega^2$","$a_{\\max} = \\omega^2$","$a_{\\max} = A$"],answer:1},
-{q:"Тербеліс кезінде координата ($x$) нөлге тең болғанда, жылдамдық ($v$) неге тең?",options:["$v=0$","$v=\\pm A\\omega$","$v=\\pm A$","$v=\\omega$"],answer:1},
-{q:"Жылдамдық ($v$) нөлге тең болғанда, орын ауыстыру ($x$) неге тең?",options:["$x=\\pm A$","$x=0$","$x=A\\omega$","$x=\\pm 2A$"],answer:0},
-{q:"Жиілік пен период арасындағы байланыс ($f$ жиілік, $T$ период)?",options:["$f=T$","$f=T^2$","$f=\\frac{1}{T}$","$f=\\frac{2\\pi}{T}$"],answer:2},
-{q:"$x(t) = A \\cos(\\omega t + \\phi)$ теңдеуіндегі $\\phi$ шамасы қалай аталады?",options:["Амплитуда","Циклдық жиілік","Бастапқы фаза","Период"],answer:2},
-{q:"$v(t)$ теңдеуі $x(t)$ теңдеуінен фаза бойынша қаншаға ығысқан?",options:["$0$","$\\pi/2$","$\\pi$","$2\\pi$"],answer:1},
-{q:"$a(t)$ теңдеуі $x(t)$ теңдеуінен фаза бойынша қаншаға ығысқан?",options:["$0$","$\\pi/2$","$\\pi$","$2\\pi$"],answer:2},
-{q:"Циклдық жиілік $\\omega$ қандай өлшем бірлігімен өлшенеді?",options:["секунд (с)","метр (м)","радиан/секунд (рад/с)","Герц (Гц)"],answer:2},
-{q:"$A$ шамасы неге тең?",options:["Максимал жылдамдық","Максимал үдеу","Максимал орын ауыстыру","Максимал жиілік"],answer:2},
-{q:"Осциллятордың период формуласы ($k$ қатаңдық, $m$ масса)?",options:["$T = 2\\pi \\sqrt{\\frac{k}{m}}$","$T = 2\\pi \\sqrt{\\frac{m}{k}}$","$T = \\frac{1}{2\\pi}\\sqrt{\\frac{k}{m}}$","$T = \\frac{k}{m}$"],answer:1}
+    if (isNaN(A) || isNaN(omega) || isNaN(phi) || isNaN(tMax) || tMax <= 0) {
+        if(chart) chart.destroy();
+        return;
+    }
+
+
+    let tData=[], xData=[], vData=[], aData=[];
+    let dt = tMax/100;
+    
+    for(let i=0;i<=100;i++){
+        let t=i*dt;
+        tData.push(t.toFixed(2));
+        xData.push(A*Math.cos(omega*t+phi));
+        vData.push(-A*omega*Math.sin(omega*t+phi));
+        aData.push(-A*omega**2*Math.cos(omega*t+phi));
+    }
+    
+    let ctx=document.getElementById('graph').getContext('2d');
+    if(chart) chart.destroy();
+    
+    chart = new Chart(ctx,{
+        type:'line',
+        data:{
+            labels:tData,
+            datasets:[
+                {label:'x(t) (Орын ауыстыру, м)', data:xData, borderColor:'#6f42c1', fill:false, tension:0.2},
+                {label:'v(t) (Жылдамдық, м/с)', data:vData, borderColor:'#fd7e14', fill:false, tension:0.2},
+                {label:'a(t) (Үдеу, м/с²)', data:aData, borderColor:'#dc3545', fill:false, tension:0.2}
+            ]
+        },
+        options:{
+            responsive:true, 
+            scales:{
+                x:{title:{display:true,text:'Уақыт t (с)'}},
+                y:{title:{display:true,text:'Мәндер'}}
+            }
+        }
+    });
+}
+
+// ТЕСТ СҰРАҚТАРЫ (40 сұрақ)
+const quizData = [
+    // 1-20. Бұрынғы сұрақтар
+    { q: "Гармоникалық тербеліс кезінде дене тепе-теңдік нүктесінен ең алыс қашықтықта (Амплитудада) болғанда, оның үдеуі (a) неге тең?", options: ["Нөлге тең", "Максимал мәнге ие", "Минимал мәнге ие", "Амплитудаға пропорционал"], answer: 1 },
+    { q: "Тербеліс энергиясы максимал потенциалдық энергияға тең болатын нүкте:", options: ["Тепе-теңдік нүктесі", "Амплитуда нүктесі", "Тербеліс ортасы", "Кез келген нүкте"], answer: 1 },
+    { q: "Тербеліс периодына (T) әсер етпейтін шама:", options: ["Масса (m)", "Қатаңдық (k)", "Амплитуда (A)", "Циклдық жиілік (ω)"], answer: 2 },
+    { q: "Жылдамдық (v) пен орын ауыстыру (x) арасындағы фазалық ығысу қаншаға тең?", options: ["0", "90 градус (π/2)", "180 градус (π)", "360 градус (2π)"], answer: 1 },
+    { q: "Егер тербеліс жасайтын жүктің массасы 4 есе артса, оның тербеліс периоды (T) қалай өзгереді?", options: ["4 есе артады", "2 есе артады", "4 есе кемиді", "Өзгермейді"], answer: 1 },
+
+    { q: "Есеп: Тербеліс жиілігі (f) 2 Гц болса, тербеліс периоды (T) қанша?", options: ["2 с", "0.5 с", "1 с", "4 с"], answer: 1 },
+    { q: "Есеп: Егер амплитуда (A) 0.1 м және циклдық жиілік (ω) 5 рад/с болса, максимал жылдамдық (v_max) қанша?", options: ["0.1 м/с", "0.5 м/с", "1 м/с", "5 м/с"], answer: 1 },
+    { q: "Есеп: Егер максимал үдеу (a_max) 4 м/с² және амплитуда (A) 1 м болса, циклдық жиілік (ω) қанша?", options: ["2 рад/с", "4 рад/с", "1 рад/с", "8 рад/с"], answer: 0 },
+    { q: "Есеп: Дененің тербеліс периоды (T) 4 с болса, ол 10 с ішінде қанша толық тербеліс жасайды?", options: ["2", "2.5", "4", "10"], answer: 1 },
+    { q: "Есеп: x(t) = 0.2 cos(πt) теңдеуі берілген. Дененің ең үлкен орын ауыстыруы (Амплитудасы) қанша?", options: ["0.2 м", "π м", "0.1 м", "1 м"], answer: 0 },
+    
+    { q: "Математикалық маятниктің тербеліс периоды негізінен қандай физикалық шамаларға тәуелді?", options: ["Жіптің ұзындығына және амплитудаға", "Массаға (m) және ауырлық күшінің үдеуіне (g)", "Жіптің ұзындығына (L) және ауырлық күшінің үдеуіне (g)", "Массаға (m) және амплитудаға"], answer: 2 },
+    { q: "Серіппелі маятниктердегі тепе-теңдік күйіне қайтаратын күш (F) неге пропорционал?", options: ["Жылдамдыққа (v)", "Орын ауыстыру квадратына", "Орын ауыстыруға (x)", "Циклдық жиілікке (ω)"], answer: 2 },
+    { q: "Тербеліс энергиясының уақыт өте келе кемуі қалай аталады?", options: ["Резонанс", "Өшпейтін тербеліс", "Өшетін тербеліс", "Еркін тербеліс"], answer: 2 },
+    { q: "Егер сыртқы күштің жиілігі жүйенің меншікті жиілігімен сәйкес келсе, қандай құбылыс орын алады?", options: ["Дисперсия", "Дифракция", "Интерференция", "Резонанс"], answer: 3 },
+    { q: "Гармоникалық тербеліс сипаттамасы болып табылмайтын күш:", options: ["Гук күшіне сәйкес келетін күш", "Орын ауыстыруға пропорционал күш", "Үдеуге пропорционал күш", "Үдеуге кері пропорционал күш"], answer: 3 },
+    
+    { q: "Тепе-теңдік нүктесінде тербеліс жасайтын дененің толық механикалық энергиясы неге тең?", options: ["Нөлге тең", "Максимал потенциалдық энергияға тең", "Максимал кинетикалық энергияға тең", "Потенциалдық және кинетикалық энергиялардың қосындысы нөлге тең"], answer: 2 },
+    { q: "Егер маятникті Айға апарсақ (тартылыс күші аз), оның тербеліс периоды (T) қалай өзгереді?", options: ["Артады", "Кемиді", "Өзгермейді", "Нөлге тең болады"], answer: 0 },
+    { q: "Орын ауыстыру (x) пен үдеу (a) арасындағы фазалық айырмашылық қанша?", options: ["0", "90 градус (π/2)", "180 градус (π)", "270 градус (3π/2)"], answer: 2 },
+    { q: "Өшетін тербелістер кезінде дененің амплитудасы (A) қалай өзгереді?", options: ["Тұрақты болып қалады", "Сызықтық заң бойынша кемиді", "Экспоненциалды заң бойынша кемиді", "Периодты түрде өзгереді"], answer: 2 },
+    { q: "Егер циклдық жиілік (ω) 3 есе артса, тербеліс жиілігі (f) қалай өзгереді?", options: ["3 есе артады", "3 есе кемиді", "9 есе артады", "9 есе кемиді"], answer: 0 },
+
+    // 21-40. Қосылған сұрақтар
+    { q: "Қандай жағдайда тербелістің толық механикалық энергиясы тұрақты болып қалады?", options: ["Ауа кедергісі болғанда", "Сыртқы күш әсер еткенде", "Ешқандай үйкеліс және сыртқы күш болмағанда (Идеал тербеліс)", "Амплитуда ең үлкен болғанда"], answer: 2 },
+    { q: "Серіппелі маятниктің период формуласындағы k нені білдіреді?", options: ["Массаны", "Тербеліс жиілігін", "Серіппенің қатаңдығын", "Амплитуданы"], answer: 2 },
+    { q: "Егер дене x(t) = A cos(ωt) заңы бойынша тербелсе, t=0 сәтінде оның жылдамдығы (v) қандай?", options: ["Максимал мәнге ие", "Нөлге тең", "Aω мәніне тең", "Теріс максимал мәнге ие"], answer: 1 },
+    { q: "Тербеліс жиілігінің (f) Халықаралық Жүйедегі (СИ) өлшем бірлігі қандай?", options: ["Секунд (с)", "Метр (м)", "Радиан (рад)", "Герц (Гц)"], answer: 3 },
+    { q: "Қандай тербеліс түрінде амплитуда уақыт өткен сайын экспоненциалды түрде кемиді?", options: ["Еркін тербеліс", "Мәжбүрлі тербеліс", "Өшетін тербелістер", "Автотербеліс"], answer: 2 },
+    { q: "Үдеу (a) теңдеуіне сәйкес, үдеу (a) қай нүктеде нөлге тең болады?", options: ["Максимал орын ауыстыру нүктесінде", "Тепе-теңдік нүктесінде", "Тербеліс басынан 1/4 жол өткенде", "Әрқашан нөлге тең емес"], answer: 1 },
+    { q: "Математикалық маятниктің кішкентай тербелістері кезінде оның периоды амплитудаға тәуелді ме?", options: ["Тәуелді, амплитуда артса, период кемиді", "Тәуелді, амплитуда артса, период артады", "Тәуелді емес", "Тек 90° жоғары амплитудада тәуелді"], answer: 2 },
+    { q: "Есеп: Циклдық жиілік ω=4 рад/с болса, тербеліс периоды (T) шамамен қанша?", options: ["0.5 с", "1.0 с", "1.57 с", "2.0 с"], answer: 2 },
+    { q: "Резонанс кезінде тербеліс амплитудасы қалай өзгереді?", options: ["Тұрақты болып қалады", "Күрт артады", "Күрт кемиді", "Сыртқы күшке байланысты емес"], answer: 1 },
+    { q: "Гармоникалық тербеліс кезінде жылдамдық (v) ең үлкен мәнге ие болатын нүкте:", options: ["Бастапқы фаза нүктесі", "Максимал орын ауыстыру нүктесі", "Тепе-теңдік нүктесі", "Тербеліс ортасынан 1/3 қашықтықта"], answer: 2 },
+    
+    { q: "Маятник тербелісінің фазасы нені анықтайды?", options: ["Амплитуданы", "Тербеліс периодын", "Тербелістің белгілі бір уақыттағы күйін", "Максимал жылдамдықты"], answer: 2 },
+    { q: "Дыбыс толқыны – бұл қандай тербеліс түрі?", options: ["Электромагниттік тербеліс", "Көлденең механикалық тербеліс", "Қума механикалық тербеліс", "Өшпейтін тербеліс"], answer: 2 },
+    { q: "Серіппелі маятник үшін максимал кинетикалық энергия қай кезде максимал потенциалдық энергияға тең болады?", options: ["Еркін тербеліс кезінде әрқашан тең", "Ешқашан тең болмайды", "Тек резонанс кезінде", "Жылу шығыны болмаған жағдайда тең"], answer: 3 },
+    { q: "Егер тербеліс периоды (T) 0.5 с болса, оның жиілігі (f) қанша?", options: ["0.5 Гц", "1 Гц", "2 Гц", "4 Гц"], answer: 2 },
+    { q: "Амплитудадан тепе-теңдік нүктесіне дейінгі қозғалыс уақыты тербеліс периодының (T) қандай бөлігін құрайды?", options: ["T/2", "T/4", "T/3", "T/8"], answer: 1 },
+    { q: "Гармоникалық тербелісте үдеу (a) мен орын ауыстыру (x) векторларының бағыты қалай болады?", options: ["Бір бағытта бағытталған", "Бір-біріне перпендикуляр", "Бір-біріне қарама-қарсы бағытталған", "Фаза бойынша 90° ығысқан"], answer: 2 },
+    { q: "Математикалық маятниктің жібінің ұзындығы 4 есе артса, оның тербеліс периоды (T) қалай өзгереді?", options: ["Өзгермейді", "2 есе артады", "4 есе артады", "2 есе кемиді"], answer: 1 },
+    { q: "Мәжбүрлі тербелістердің жиілігі немен анықталады?", options: ["Жүйенің меншікті жиілігімен", "Дененің массасымен", "Сыртқы мәжбүрлеуші күштің жиілігімен", "Амплитудамен"], answer: 2 },
+    { q: "Есеп: Егер амплитуда (A) 2 м, ал максимал жылдамдық (v_max) 4 м/с болса, циклдық жиілік (ω) қанша?", options: ["2 рад/с", "0.5 рад/с", "4 рад/с", "8 рад/с"], answer: 0 },
+    { q: "Қайсысы толқынның (тербелістің) таралу жылдамдығына әсер етпейді?", options: ["Сыртқы ортаның тығыздығы", "Сыртқы ортаның қатаңдығы", "Толқынның жиілігі", "Ортаның температурасы"], answer: 2 }
 ];
 
-// Тест деректерін құрастыру (HTML-дағы 4 сұрақтан кейін)
-const quizContainer=document.getElementById('quizContainer');
 
+// Тест деректерін құрастыру (HTML-ға сұрақтарды енгізу)
+const quizContainer = document.getElementById('quizContainer');
 quizData.forEach((q, i) => {
-    const questionIndex = i + 4; // Сұрақ нөмірін 5-тен (q4) бастау
+    const questionIndex = i;
     const div = document.createElement('div');
     div.className = 'question-block';
+    
+    // Сұрақ мәтіні
     div.innerHTML = `<h4>Сұрақ ${questionIndex + 1}: ${q.q}</h4><div class="question-options"></div>`;
-    
+    
+    // Жауап нұсқалары
     q.options.forEach((opt, j) => {
         const label = document.createElement('label');
-        // formula-display класымен және MathJax-пен көрсетеміз
         const optionText = `<span class="formula-display">${opt}</span>`;
         label.innerHTML = `<input type="radio" name="q${questionIndex}" value="${j}"> ${optionText}`;
         div.querySelector('.question-options').appendChild(label);
@@ -221,64 +420,33 @@ quizData.forEach((q, i) => {
 // Тест жіберу
 function submitQuiz(){
     let score=0;
-    const allQuizData = [
-        {answer:1}, // Сұрақ 1 (Есеп)
-        {answer:1}, // Сұрақ 2 (Период)
-        {answer:0}, // Сұрақ 3 (Орын ауыстыру)
-        {answer:0}, // Сұрақ 4 (Жылдамдық)
-        ...quizData // Қалған сұрақтар
-    ];
-    
-    const totalQuestions = allQuizData.length;
-    
-    allQuizData.forEach((q,i)=>{
+    const totalQuestions = quizData.length;
+    
+    quizData.forEach((q,i)=>{
         const ans=document.querySelector(`input[name=q${i}]:checked`);
         if(ans && Number(ans.value)===q.answer) score++;
     });
-    
+    
     const resDiv=document.getElementById('quizResult');
     resDiv.style.display='block';
     resDiv.innerHTML=`Сіз **${score}** / **${totalQuestions}** дұрыс жауап бердіңіз (**${Math.round(score/totalQuestions*100)}%**)`;
     MathJax.typeset();
 }
 
-// Бастапқы жүктеу
+// Бастапқы жүктеу кезінде іске қосылатын функция
 document.addEventListener('DOMContentLoaded', () => {
-    calculate();
-    MathJax.typeset();
+    // Вкладкалардың дұрыс жүктелуін қамтамасыз етеміз
+    showTab(0); 
+
+    // Графикке арналған кіріс мәндерін Калькулятор мәндерімен синхрондау
+    document.getElementById('graphA').value = document.getElementById('A').value;
+    document.getElementById('graphOmega').value = document.getElementById('omega').value;
+    document.getElementById('graphPhi').value = document.getElementById('phi').value;
+    
+    // Бастапқы есептеуді орындау
+    calculate();
+    drawGraph(); 
 });
-
-// ... (График функциясы осы жерде болуы керек, бірақ бұрынғы кодтағыдай өзгеріссіз қалдырылды) ...
-
-function drawGraph(){
-    let A=parseFloat(document.getElementById('A').value);
-    let omega=parseFloat(document.getElementById('omega').value);
-    let phi=parseFloat(document.getElementById('phi').value);
-    let tMax=parseFloat(document.getElementById('tMax').value);
-    let tData=[], xData=[], vData=[], aData=[];
-    let dt = tMax/100;
-    for(let i=0;i<=100;i++){
-        let t=i*dt;
-        tData.push(t.toFixed(2));
-        xData.push(A*Math.cos(omega*t+phi));
-        vData.push(-A*omega*Math.sin(omega*t+phi));
-        aData.push(-A*omega**2*Math.cos(omega*t+phi));
-    }
-    let ctx=document.getElementById('graph').getContext('2d');
-    if(chart) chart.destroy();
-    chart = new Chart(ctx,{
-        type:'line',
-        data:{
-            labels:tData,
-            datasets:[
-                {label:'x(t)', data:xData, borderColor:'#3a6cf4', fill:false, tension:0.2},
-                {label:'v(t)', data:vData, borderColor:'#f39c12', fill:false, tension:0.2},
-                {label:'a(t)', data:aData, borderColor:'#e74c3c', fill:false, tension:0.2}
-            ]
-        },
-        options:{responsive:true, scales:{x:{title:{display:true,text:'t (с)'}},y:{title:{display:true,text:'Мәндер'}}}}
-    });
-}
 </script>
 </body>
 </html>
